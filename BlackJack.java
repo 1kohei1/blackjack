@@ -14,54 +14,64 @@ class BlackJack
              };
              //ーーーーーーーーーーープレイヤーの手札を決めるーーーーーーーーーーーー
              String[] phand = new String[11];//プレイヤーの手持ちのカード
-          
-          
+             // phandは最初みたとき、わからなかったから、playerHandsのほうが変数の名前としていいと思う。
+             /*
+              * 配列でもいいけど、java.util.ArrayListのほうがいいと思う。
+              * ArrayListはLinkedListというデータ構造なんだけど、配列のサイズを決めないで、要素を加えることができる。
+              * 使い方はこんな感じ。
+              * ArrayList<String> phand = new ArrayList<String>();
+              * phand.add("abc");
+              * System.out.println(phand.size());
+              * System.out.println(phand.get(0));
+              * phand.add("ijk");
+              * phand.remove("abc");
+              */
+             
              //最初に配るカードを決定
              do {
-                 int n1 = (int)(Math.random()*52);
-                 int n2 = (int)(Math.random()*52);
+                 int n1 = (int) (Math.random() * 52);
+                 int n2 = (int) (Math.random() * 52);
                  
                  //deckから一度配られたカードを排除する
                  phand[0] = deck[n1];
                  deck[n1] = "0";
                  phand[1] = deck[n2];
                  deck[n2] = "0";
-                 
-              }while( (phand[0].equals("0")) || (phand[1].equals("0")));
+             } while ((phand[0].equals("0")) || (phand[1].equals("0")));
               
-                 
-                 int ptotal = 0; //プレイヤーの今の手の合計(player total)
-              for(int i=0 ; i<2 ; i++){       
+             int ptotal = 0; //プレイヤーの今の手の合計(player total)
+             // ここも一緒でわざわざコメントで変数の説明をするくらいなら、変数の名前だけで何を表してるかを伝えられる名前にするべき。playerTotalとか。
+             for(int i = 0; i < 2; i++) {       
                   ptotal += Integer.parseInt(phand[i].replaceAll("[^0-9]",""));
-            }
+             }
                 
-                //プレイヤーの手札の枚数を表示
-                System.out.println("【今のプレイヤーの手持ち】【1枚目:"+phand[0]+" "+"2枚目:"+phand[1]+"】【合計:"+ptotal+"】");
-                
-                //ーーーーーーーーーーーーーーーCPUの最初の二枚を決めるーーーーーーーーーーーー
-                
-                //CPUの手札を決める
-             String[] chand = new String[11];//プレイヤーの手持ちのカード
+             //プレイヤーの手札の枚数を表示
+             System.out.println("【今のプレイヤーの手持ち】【1枚目:" + phand[0] + " " + "2枚目:" + phand[1] + "】【合計:" + ptotal + "】");
+             
+             //ーーーーーーーーーーーーーーーCPUの最初の二枚を決めるーーーーーーーーーーーー
+             
+             //CPUの手札を決める
+             String[] chand = new String[11];//CPUの手持ちのカード
+             // ここもcpuHandsのほうがいいと思う。
           
           
              //最初に配るカードを決定
              do {
-                 int n1 = (int)(Math.random()*52);
-                 int n2 = (int)(Math.random()*52);
+                 int n1 = (int) (Math.random() * 52);
+                 int n2 = (int) (Math.random() * 52);
                  
                  //deckから一度配られたカードを排除する
                  chand[0] = deck[n1];
                  deck[n1] = "0";
                  chand[1] = deck[n2];
                  deck[n2] = "0";
-                 
-              }while( (chand[0].equals("0")) || (chand[1].equals("0")));
-              
-                 
-                 int ctotal = 0; //CPUの今の手の合計(CPU total)
-              for(int i=0 ; i<2 ; i++){       
+             } while ((chand[0].equals("0")) || (chand[1].equals("0")));
+             
+             int ctotal = 0; //CPUの今の手の合計(CPU total)
+             // ptotalのときと同じコメント。
+             for (int i = 0; i < 2; i++) {       
                   ctotal += Integer.parseInt(chand[i].replaceAll("[^0-9]",""));
-            }
+             }
                 //chandの中の値が入っている要素数を取得
                 int ci = 0;
                 for(int i=0 ; i<11 ; i++){
@@ -118,6 +128,7 @@ class BlackJack
                         
                         
                     }else if(input==2){
+                      // これはなんのため？
                         System.out.println("ーーー結果ーーー");
                     }
                 }while(input==1);
