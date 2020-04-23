@@ -13,129 +13,158 @@ class BlackJack
          "♦︎1","♦︎2","♦︎3","♦︎4","♦︎5","♦︎6","♦︎7","♦︎8","♦︎9","♦︎10","♦︎10","♦︎10","♦︎10"
              };
              //ーーーーーーーーーーープレイヤーの手札を決めるーーーーーーーーーーーー
-             String[] phand = new String[11];//プレイヤーの手持ちのカード
+             ArrayList<String> playerHands = new ArrayList<String>();
           
           
              //最初に配るカードを決定
+             int n1 = 0;
+             int n2 = 0;
+             int playerShuffleCount = 0;
              do {
-                 int n1 = (int)(Math.random()*52);
-                 int n2 = (int)(Math.random()*52);
+                 if (playerShuffleCount == 0) {
+                    n1 = (int) (Math.random() * 52);
+                    n2 = (int) (Math.random() * 52);
                  
-                 //deckから一度配られたカードを排除する
-                 phand[0] = deck[n1];
-                 deck[n1] = "0";
-                 phand[1] = deck[n2];
-                 deck[n2] = "0";
-                 
-              }while( (phand[0].equals("0")) || (phand[1].equals("0")));
+                    //deckから一度配られたカードを排除する
+                    playerHands.add(deck[n1]);
+                    deck[n1] = "0";
+                    playerHands.add(deck[n2]);
+                    deck[n2] = "0";
+                } else {
+                    n1 = (int) (Math.random() * 52);
+                    n2 = (int) (Math.random() * 52);
+                    
+                    playerHands.set(0, deck[n1]);
+                    deck[n1] = "0";
+                    playerHands.set(1, deck[n2]);
+                    deck[n2] = "0";
+                }
+                 playerShuffleCount++;
+              } while ((playerHands.get(0).equals("0")) || (playerHands.get(0).equals("0")));
               
                  
-                 int ptotal = 0; //プレイヤーの今の手の合計(player total)
-              for(int i=0 ; i<2 ; i++){       
-                  ptotal += Integer.parseInt(phand[i].replaceAll("[^0-9]",""));
-            }
+                 int playerTotal = 0; 
+                 for (int i = 0; i < 2; i++) {
+                     playerTotal += Integer.parseInt(playerHands.get(i).replaceAll("[^0-9]",""));
+                  }
                 
                 //プレイヤーの手札の枚数を表示
-                System.out.println("【今のプレイヤーの手持ち】【1枚目:"+phand[0]+" "+"2枚目:"+phand[1]+"】【合計:"+ptotal+"】");
+                System.out.println("【今のプレイヤーの手持ち】【1枚目:"+playerHands.get(0)+ " " +"2枚目:" + playerHands.get(1) + "】【合計:" + playerTotal + "】");
                 
                 //ーーーーーーーーーーーーーーーCPUの最初の二枚を決めるーーーーーーーーーーーー
                 
                 //CPUの手札を決める
-             String[] chand = new String[11];//プレイヤーの手持ちのカード
+             ArrayList<String> cpuHands = new ArrayList<String>();//プレイヤーの手持ちのカード
           
           
              //最初に配るカードを決定
+             int n11 = 0;
+             int n22 = 0;
+             int cpuShuffleCount = 0;
              do {
-                 int n1 = (int)(Math.random()*52);
-                 int n2 = (int)(Math.random()*52);
+                 if (cpuShuffleCount == 0) {
+                    n11 = (int) (Math.random() * 52);
+                    n22 = (int) (Math.random() * 52);
                  
-                 //deckから一度配られたカードを排除する
-                 chand[0] = deck[n1];
-                 deck[n1] = "0";
-                 chand[1] = deck[n2];
-                 deck[n2] = "0";
-                 
-              }while( (chand[0].equals("0")) || (chand[1].equals("0")));
-              
-                 
-                 int ctotal = 0; //CPUの今の手の合計(CPU total)
-              for(int i=0 ; i<2 ; i++){       
-                  ctotal += Integer.parseInt(chand[i].replaceAll("[^0-9]",""));
-            }
-                //chandの中の値が入っている要素数を取得
-                int ci = 0;
-                for(int i=0 ; i<11 ; i++){
-                    if(chand[i] == null){
-                        break;
-                    }
-                    ci++;
+                    //deckから一度配られたカードを排除する
+                    cpuHands.add(deck[n11]);
+                    deck[n11] = "0";
+                    cpuHands.add(deck[n2]);
+                    deck[n22] = "0";
+                } else {
+                    n11 = (int) (Math.random() * 52);
+                    n22 = (int) (Math.random() * 52);
+                    
+                    cpuHands.set(0, deck[n11]);
+                    deck[n1] = "0";
+                    cpuHands.set(1, deck[n22]);
+                    deck[n2] = "0";
                 }
+                 cpuShuffleCount++;
+              } while ((cpuHands.get(0).equals("0")) || (cpuHands.get(0).equals("0")));
                 
-                //最初に配られた2枚のカードとその合計を表示
-                System.out.println("【CPUの枚数:"+ci+"】");
-                
+                //CPUの手持ちの枚数を表示&合計を計算
+                System.out.println("【CPUの枚数:" + cpuHands.size() + "】");
+                 int cpuTotal = 0; 
+                 for (int i = 0; i < 2; i++) {
+                     cpuTotal += Integer.parseInt(cpuHands.get(i).replaceAll("[^0-9]",""));
+                  }
                 
                 //ーーーーーーーーーーーーーーープレイヤーが何回引くかを決めるーーーーーーーーーー
                 
                 
                 //引くorステイor9
                 
-                int input; //プレイヤーの入力
-                int pcount=2; //なんこ目の配列に入れるか
-                int ccount=2;
+                int playerInput; //プレイヤーの入力
+                int playerCount = 2; //なんこ目の配列に入れるか
+                int cpuCount = 2;
                 do {
                     System.out.println("ステイの場合は0を、一枚引く場合は1を入力してください。(もしゲームを終了する場合は9を入力してください)");
                     //プレイヤーの入力待ち
                     System.out.print("入力待ち...");
-                    input = sc.nextInt();
+                    playerInput = sc.nextInt();
                     
-                    if(input==9){
+                    if (playerInput == 9) {
                         System.out.println("あなたは勝負から逃げました。\nゲームを終了します。");
                         return;
-                    }else if(input==1){
+                    } else if (playerInput == 1) {
                         //一枚ランダムに引く
                         int n3 = 0;
+                        int playerShuffleCount1 = 0;
                         do {
-                            n3 = (int)(Math.random()*52);
-                            phand[pcount] = deck[n3];
-                        }while(deck[n3].equals("0"));
+                            if (playerShuffleCount1 == 0) {
+                                n3 = (int) (Math.random() * 52);
+                                playerHands.add(deck[n3]);
+                                playerShuffleCount++;
+                            } else {
+                                n3 = (int) (Math.random() * 52);
+                                playerHands.set(playerCount, deck[n3]);
+                            }
+                        } while (deck[n3].equals("0"));
                         
                         
                         System.out.print("【プレイヤーの今の手持ち】");
-                        for(int i=0 ; i<=pcount ; i++){
-                            System.out.print("【"+(i+1)+"枚目:"+phand[i]+"】");
+                        for (int i = 0; i <= playerCount; i++) {
+                            System.out.print("【"+(i+1)+"枚目:"+playerHands.get(i)+"】");
                         }
                         System.out.print("【合計】:");
-                        ptotal += Integer.parseInt(phand[pcount].replaceAll("[^0-9]",""));//今引いた数字をptotalに足す
+                        playerTotal += Integer.parseInt(playerHands.get(playerCount).replaceAll("[^0-9]",""));//今引いた数字をplayerTotalに足す
                         
-                        System.out.println("【合計】:"+ptotal);
-                         pcount++;
+                        System.out.println("【合計】:" + playerTotal);
+                         playerCount++;
                          
-                        if(ptotal>21){
+                        if (playerTotal > 21) {
                             System.out.println("あなたはバーストしました。");
                             break;
                         }
                         
                         
-                    }else if(input==2){
+                    } else if (playerInput == 2) {
                         System.out.println("ーーー結果ーーー");
                     }
-                }while(input==1);
+                } while (playerInput == 1);
                 
                 //ーーーーーーーーCPUが追加で引くーーーーーーーーーー
-                while(ctotal<=14){
+                int cpuShuffleCount2 = 0;
+                while (cpuTotal <= 14) {
                     int n4 = 0;
+                    cpuShuffleCount2 = 0;
                         do {
-                            n4 = (int)(Math.random()*52);
-                            chand[ccount] = deck[n4];
-                        }while(deck[n4].equals("0"));
+                            if (cpuShuffleCount == 0) {
+                                n4 = (int) (Math.random() * 52);
+                                cpuHands.add(deck[n4]);
+                                cpuShuffleCount++;
+                            } else {
+                                n4 = (int) (Math.random() * 52);
+                                cpuHands.add(cpuCount, deck[n4]);
+                            }
+                        } while (deck[n4].equals("0"));
                         
-                        ctotal += Integer.parseInt(chand[ccount].replaceAll("[^0-9]",""));
-                        ccount++;
-                        ci++;
+                        cpuTotal += Integer.parseInt(cpuHands.get(cpuCount).replaceAll("[^0-9]",""));
+                        cpuCount++;
                 }
                 
-                System.out.println("【CPUの枚数:"+ci+"】");
+                System.out.println("【CPUの枚数:" + cpuHands.size() + "】");
                 
                 
                 //ーーーーーーーーーープレイヤーとCPUの合計ーーーーーーーーーーーー
@@ -143,58 +172,58 @@ class BlackJack
                 
                             
                 //プレイヤーの手札の枚数を表示
-                System.out.println("【あなたの合計】"+ptotal);
-                System.out.println("【CPUの合計】"+ctotal);
+                System.out.println("【あなたの合計】" + playerTotal);
+                System.out.println("【CPUの合計】" + cpuTotal);
                 
                 
                 //ーーーーーーーー1or11ーーーーーーーーーーーー
-                int ptotal2 = ptotal;
+                int playerTotal2 = playerTotal;
                 int a = 0;
-                for(int i=0 ; i<pcount ; i++){
-                    if( (Integer.parseInt(phand[i].replaceAll("[^0-9]",""))) == 1 ){
+                for (int i = 0; i < playerCount; i++) {
+                    if ((Integer.parseInt(playerHands.get(i).replaceAll("[^0-9]",""))) == 1) {
                         a++;
                     }
                 }
-                if(a!=0){
-                    ptotal2 += 10;
-                    if(ptotal2<=21){
-                        ptotal = ptotal2;
+                if (a != 0) {
+                    playerTotal2 += 10;
+                    if (playerTotal2 <= 21) {
+                        playerTotal = playerTotal2;
                     }
                 }
                 
                 
                 //ーーーーーーーーー勝敗判断ーーーーーーーーーーーーーー
                 
-                if( (21>ptotal)&&(21>ctotal) ){
-                    if(ptotal>ctotal){
+                if ((21 > playerTotal) && (21 > cpuTotal)) {
+                    if (playerTotal > cpuTotal) {
                         System.out.println("プレイヤーの勝ち");
-                    }else if(ptotal<ctotal){
+                    } else if (playerTotal < cpuTotal) {
                         System.out.println("CPUの勝ち");
-                    }else{
+                    } else {
                         System.out.println("引き分け");
                     }
                 }
                     
-                    if(ptotal==21){
-                        if(ctotal==21){
+                    if (playerTotal == 21) {
+                        if (cpuTotal == 21) {
                             System.out.println("引き分け:両者ブラックジャック");
-                        }else{
+                        } else {
                             System.out.println("プレイヤー:ブラックジャック!!!");
                         }
-                    }else if(21<ptotal){
-                        if(ctotal==21){
+                    } else if (21 < playerTotal) {
+                        if (cpuTotal == 21) {
                             System.out.println("CPU:ブラックジャック");
-                        }else if(ctotal<21){
+                        } else if (cpuTotal < 21) {
                             System.out.println("CPUの勝ち:シンギュラリティ");
-                    }
+                        }
                     }
                     
-                    if((21<ctotal){
-                        if(21<ptotal){
+                    if (21 < cpuTotal) {
+                        if (21 < playerTotal) {
                         System.out.println("引き分け:両者バースト");
-                        }else if(21>ptotal){
+                        } else if (21 > playerTotal) {
                             System.out.println("プレイヤーの勝ち");
-                    }
+                        }
                     }
         }
 }       
