@@ -4,6 +4,8 @@ class BlackJack
         public static void main(String[] args)
         {
             Scanner sc = new Scanner(System.in);
+
+            // 変更
             
             //全52種類のトランプのデッキを作成
             String[] deck = {
