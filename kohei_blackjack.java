@@ -118,13 +118,14 @@ class BlackjackGame {
 
   public void askContinueOrNot() {
     int userInput = 2;
-    while (userInput != 0 || userInput != 1) {
+    while (!(userInput == 0 || userInput == 1)) {
       System.out.printf("ゲームを続けますか？(1 = 続ける, 0 = 続けない): ");
       userInput = in.nextInt();
     }
     
     if (userInput == 0) {
       isOver = true;
+      System.out.println("ゲームを終了します。");
     }
   }
 
