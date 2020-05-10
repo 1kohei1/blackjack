@@ -52,7 +52,7 @@ class BlackjackGame {
   }
 
   private void playerTurn() {
-    while (true) {
+    while (computeScore(playerHands) < 22) {
       System.out.println("あなたのカード:");
       printCards(playerHands);
       
@@ -125,7 +125,7 @@ class BlackjackGame {
     
     if (userInput == 0) {
       isOver = true;
-      System.out.println("ゲームを終了します。");
+      System.out.println("ゲームを終了します");
     }
   }
 
