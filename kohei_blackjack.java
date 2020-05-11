@@ -109,8 +109,10 @@ class BlackjackGame {
       }
     }
 
-    while (num1 > 0 && score > 21) {
-      score -= 10;
+    for (int i = 0; i < num1; i++) {
+        if (score > 21) {
+            score -= 10;
+        }
     }
 
     return score;
