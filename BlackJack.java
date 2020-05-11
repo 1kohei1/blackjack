@@ -43,6 +43,9 @@ class BlackJack
                 }
                  playerShuffleCount++;
               } while ((playerHands.get(0).equals("0")) || (playerHands.get(0).equals("0")));
+             // ここはplayerHands.get(1)なのでは？
+             // n1 = 0, n2 = 0, playerShuffleCount = 0のとき、deckはどのような状態になりますか？
+             // ゲームの状況を正しく反映しているでしょうか？
               
                  
                  int playerTotal = 0; 
@@ -84,6 +87,7 @@ class BlackJack
                 }
                  cpuShuffleCount++;
               } while ((cpuHands.get(0).equals("0")) || (cpuHands.get(0).equals("0")));
+             // 上のコメントと同じ
                 
                 //CPUの手持ちの枚数を表示&合計を計算
                 System.out.println("【CPUの枚数:" + cpuHands.size() + "】");
